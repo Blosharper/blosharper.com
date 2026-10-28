@@ -46,3 +46,8 @@ Card artwork, icons, logos and guide files under `teaser/public/` and
 `teaser/docs/manuals/` are committed deployment inputs. No build or source
 repository access is needed during deployment. Update those inputs together
 with the pages that consume them.
+
+The platform logos (`teaser/public/assets/steam_logo_white.svg`,
+`teaser/public/assets/stove_symbol.png`) are owned here: the game's teaser
+sync no longer copies them (Blosharper/blosharper#1067). Edit them in this
+repository.
