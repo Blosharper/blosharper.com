@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blosharper | 개인정보처리방침 · Privacy Policy</title>
+  <meta name="description" content="블로샤퍼(Blosharper) 모바일 앱 개인정보처리방침 · Blosharper Mobile App Privacy Policy" />
+  <link rel="canonical" href="https://blosharper.com/privacy.html" />
+
+  <link rel="icon" href="public/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="public/app-icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="public/app-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 원문 = docs/mobile/store/PRIVACY_POLICY.md (가로줄 아래 ko · en 본문). 문안은 그 파일이 정본이다 —
+       여기서 고치지 말고 그쪽을 고친 뒤 옮긴다. 두 벌의 어긋남은 #564 착지 보고의 대조 절차로 잰다. */
+
+    /* 언어 전환: html[lang]이 정한다. Pages 미들웨어(functions/_middleware.js)가 요청 언어로
+       lang 속성을 미리 박아 주므로 스크립트 없이도 맞는 쪽이 보인다. ko가 아니면 en(폴백). */
+    .policy[lang="ko"] { display: none; }
+    html[lang="ko"] .policy[lang="ko"] { display: block; }
+    html[lang="ko"] .policy[lang="en"] { display: none; }
+
+    .privacy-page {
+      position: relative;
+      z-index: 10;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 4.5rem 16px 4rem;
+    }
+    .privacy-home {
+      display: inline-block;
+      font-family: var(--font-pixel);
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-decoration: none;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 1rem;
+    }
+    .privacy-home:hover { text-decoration: underline; }
+    .privacy-page .help-markdown-content {
+      overflow: visible;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: 6px;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .privacy-page .help-markdown-content h2:first-child { margin-top: 0; }
+    .privacy-page .help-markdown-content h3 { font-size: 18px; }
+    .privacy-page .help-markdown-content code { color: var(--gold); }
+    .privacy-footer {
+      margin-top: 2rem;
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    @media (max-width: 480px) {
+      .privacy-page .help-markdown-content { padding: 16px; font-size: 15px; }
+      .privacy-page .help-markdown-content h2 { font-size: 20px; }
+      .privacy-page .help-markdown-content h3 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="table-felt"></div>
+  <div class="vignette"></div>
+
+  <div class="lang-switcher">
+    <select id="lang-select" aria-label="Language">
+      <option value="ko">KR</option>
+      <option value="en">EN</option>
+    </select>
+  </div>
+
+  <main class="privacy-page">
+    <a class="privacy-home" href="./">Blosharper</a>
+
+    <article class="policy help-markdown-content" lang="ko">
+      <h2>블로샤퍼(Blosharper) 모바일 앱 개인정보처리방침</h2>
+
+      <p><code>Joon x Jin Works</code>(이하 「개발자」)은 모바일 게임 「블로샤퍼(Blosharper)」(이하 「앱」)의 이용과 관련하여 이용자의 개인정보를 어떻게 다루는지 다음과 같이 알려드립니다.</p>
+
+      <h3>1. 수집하는 개인정보</h3>
+      <p>앱은 이용자의 개인정보를 <strong>수집하지 않습니다.</strong></p>
+      <ul>
+        <li>회원 가입·로그인 절차가 없으며, 이름·이메일·전화번호 등 이용자를 식별할 수 있는 정보를 입력받지 않습니다.</li>
+        <li>업적과 클라우드 세이브는 기기의 Google Play 게임즈 또는 Apple Game Center 계정으로 처리됩니다. 이 과정의 정보는 Google·Apple 각 사의 개인정보처리방침을 따르며, 개발자에게 전달되거나 개발자가 저장하지 않습니다.</li>
+        <li>위치 정보, 연락처, 사진·파일, 카메라, 마이크에 접근하지 않습니다.</li>
+        <li>광고를 표시하지 않으며, 광고 식별자를 사용하지 않습니다.</li>
+        <li>이용 행태를 분석하거나 통계를 내기 위해 정보를 외부로 보내지 않으며, 외부 분석 서비스를 사용하지 않습니다.</li>
+        <li>앱 안에서 결제하는 기능이 없습니다.</li>
+      </ul>
+
+      <h3>2. 기기에 저장되는 정보</h3>
+      <p>게임 진행 상황, 설정, 언어 선택 등 게임에 필요한 정보는 이용자의 기기에 저장됩니다. 이용자가 Google Play 게임즈 또는 Apple Game Center에 로그인한 경우, 기기 간 이어하기를 위해 게임 진행 상황이 해당 계정의 클라우드 저장 공간(Google 또는 Apple)에도 저장됩니다. 이 정보는 개발자에게 전송되지 않으며, 개발자는 이 정보에 접근할 수 없습니다.</p>
+      <ul>
+        <li>앱을 삭제하면 기기에 저장된 게임 정보도 함께 삭제됩니다.</li>
+        <li>이용자가 기기의 백업 기능(예: Google 계정 백업, iCloud 백업)을 사용하는 경우, 운영체제가 앱 데이터를 그 백업에 포함할 수 있습니다. 이 백업은 이용자와 해당 서비스 제공자 사이에서 처리되며, 개발자는 그 사본에 접근하지 않습니다.</li>
+      </ul>
+
+      <h3>3. 개인정보의 처리 목적 및 보유 기간</h3>
+      <p>수집하는 개인정보가 없으므로 처리 목적과 보유 기간이 없습니다.</p>
+
+      <h3>4. 제3자 제공 및 처리 위탁</h3>
+      <p>개발자는 이용자의 개인정보를 제3자에게 제공하지 않으며, 개인정보 처리를 외부에 위탁하지 않습니다. 개인정보를 국외로 이전하지 않습니다.</p>
+
+      <h3>5. 자동으로 수집하는 장치의 설치·운영 및 거부</h3>
+      <p>앱은 쿠키 등 이용자를 추적하는 장치를 설치·운영하지 않습니다. 기기 안의 저장 공간은 2항의 게임 정보를 보관하는 용도로만 사용합니다.</p>
+
+      <h3>6. 외부 링크 및 스토어</h3>
+      <ul>
+        <li>앱 안의 외부 링크(예: 피드백 버튼)를 누르면 외부 웹사이트가 열립니다. 이는 이용자가 누를 때만 일어나며, 그 사이트에서의 정보 처리는 해당 사이트 운영자의 방침을 따릅니다.</li>
+        <li>앱의 다운로드·구매·환불은 Google Play 또는 App Store가 처리하며, 그 과정의 정보 처리는 해당 스토어의 개인정보처리방침을 따릅니다.</li>
+        <li>기기의 운영체제나 스토어가 이용자의 설정에 따라 앱의 오류 보고서나 이용 통계를 집계하는 기능을 제공할 수 있습니다. 이 정보의 수집과 처리는 해당 플랫폼의 개인정보처리방침을 따릅니다.</li>
+      </ul>
+
+      <h3>7. 아동의 개인정보</h3>
+      <p>앱은 만 14세 미만 아동을 포함한 모든 이용자의 개인정보를 수집하지 않습니다.</p>
+
+      <h3>8. 개인정보의 파기</h3>
+      <p>수집하는 개인정보가 없으므로 파기할 개인정보가 없습니다. 기기에 저장된 게임 정보는 이용자가 앱을 삭제하여 직접 지울 수 있습니다.</p>
+
+      <h3>9. 이용자의 권리와 행사 방법</h3>
+      <p>개발자가 보유한 이용자의 개인정보가 없으므로 열람·정정·삭제·처리정지를 요구할 대상이 없습니다. 기기에 저장된 게임 정보는 이용자가 언제든지 앱을 삭제하여 지울 수 있습니다. 개인정보와 관련한 문의는 아래 연락처로 보내 주십시오.</p>
+
+      <h3>10. 안전성 확보 조치</h3>
+      <p>개발자는 개인정보를 수집·보관하지 않으므로 별도의 개인정보 보관 시설을 운영하지 않습니다.</p>
+
+      <h3>11. 개인정보 보호책임자 및 문의처</h3>
+      <ul>
+        <li>개인정보 보호책임자: 경준호</li>
+        <li>연락처: <a href="mailto:support@joonjin.com">support@joonjin.com</a></li>
+      </ul>
+      <p>개인정보 침해에 대한 신고나 상담이 필요한 경우 개인정보분쟁조정위원회, 한국인터넷진흥원 개인정보침해신고센터, 대검찰청, 경찰청에 문의하실 수 있습니다.</p>
+
+      <h3>12. 개인정보처리방침의 변경</h3>
+      <p>이 방침은 2026년 9월 26일부터 적용됩니다. 앱의 기능 변경으로 개인정보를 처리하게 되는 경우, 해당 버전을 배포하기 전에 이 방침을 갱신하고 변경 사항을 앱 또는 스토어 페이지를 통해 알려드립니다.</p>
+    </article>
+
+    <article class="policy help-markdown-content" lang="en">
+      <h2>Blosharper Mobile App Privacy Policy</h2>
+
+      <p><code>Joon x Jin Works</code> ("the Developer") explains below how the mobile game "Blosharper" ("the App") handles personal information.</p>
+
+      <h3>1. Information We Collect</h3>
+      <p>The App <strong>does not collect any personal information.</strong></p>
+      <ul>
+        <li>There is no sign-up or login. The App does not ask for your name, email address, phone number, or any other information that identifies you.</li>
+        <li>Achievements and cloud saves are handled through your device's Google Play Games or Apple Game Center account. That information is governed by Google's and Apple's own privacy policies and is not sent to or stored by the Developer.</li>
+        <li>The App does not access your location, contacts, photos or files, camera, or microphone.</li>
+        <li>The App does not display ads and does not use advertising identifiers.</li>
+        <li>The App does not send usage data anywhere for analytics or statistics, and it uses no third-party analytics service.</li>
+        <li>The App has no in-app purchases.</li>
+      </ul>
+
+      <h3>2. Information Stored on Your Device</h3>
+      <p>Game progress, settings, and your language choice are stored on your device. If you are signed in to Google Play Games or Apple Game Center, your game progress is also stored in that account's cloud storage (Google or Apple) so you can continue on another device. This information is not sent to the Developer, and the Developer cannot access it.</p>
+      <ul>
+        <li>Uninstalling the App deletes the game information stored on your device.</li>
+        <li>If you use your device's backup features (for example, Google account backup or iCloud Backup), the operating system may include the App's data in that backup. Such backups are handled between you and the backup provider; the Developer has no access to them.</li>
+      </ul>
+
+      <h3>3. Purpose and Retention</h3>
+      <p>Because no personal information is collected, there is no processing purpose and no retention period.</p>
+
+      <h3>4. Sharing and Processing by Others</h3>
+      <p>The Developer does not share personal information with third parties, does not outsource any processing of personal information, and does not transfer personal information abroad.</p>
+
+      <h3>5. Cookies and Tracking</h3>
+      <p>The App does not use cookies or any other tracking technology. On-device storage is used only to keep the game information described in section 2.</p>
+
+      <h3>6. External Links and App Stores</h3>
+      <ul>
+        <li>Tapping an external link in the App (for example, the feedback button) opens an external website. This happens only when you tap it, and the website's own privacy policy applies there.</li>
+        <li>Downloads, purchases, and refunds are handled by Google Play or the App Store, under that store's privacy policy.</li>
+        <li>Your device's operating system or app store may, depending on your settings, compile crash reports or usage statistics for apps. That collection is governed by the platform's own privacy policy.</li>
+      </ul>
+
+      <h3>7. Children</h3>
+      <p>The App does not collect personal information from anyone, including children.</p>
+
+      <h3>8. Deletion</h3>
+      <p>Because no personal information is collected, there is nothing for the Developer to delete. You can remove the game information on your device at any time by uninstalling the App.</p>
+
+      <h3>9. Your Rights</h3>
+      <p>The Developer holds no personal information about you, so there is nothing to access, correct, or delete on our side. For any privacy question, please use the contact below.</p>
+
+      <h3>10. Security</h3>
+      <p>Because the Developer does not collect or store personal information, no personal-information storage is operated.</p>
+
+      <h3>11. Contact</h3>
+      <ul>
+        <li>Privacy officer: Junho Kyung</li>
+        <li>Contact: <a href="mailto:support@joonjin.com">support@joonjin.com</a></li>
+      </ul>
+
+      <h3>12. Changes to This Policy</h3>
+      <p>This policy is effective from September 26, 2026. If a future version of the App processes personal information, this policy will be updated before that version is released, and the change will be announced in the App or on its store page.</p>
+    </article>
+
+    <footer class="privacy-footer">&copy; 2026 Joon 💋 Jin Works. All rights reserved.</footer>
+  </main>
+
+  <script>
+    // 티저 본문(script.js)과 같은 언어 저장소를 쓴다 — localStorage·쿠키의 `lang`.
+    // 이 페이지는 ko · en 두 벌뿐이라 그 밖의 언어는 en으로 보여 주되, 저장된 선택은 덮어쓰지 않는다
+    // (사용자가 여기서 직접 고를 때만 기록한다).
+    (function () {
+      function readStoredLang() {
+        var query = new URLSearchParams(window.location.search).get('lang')
+        if (query) return query
+        try {
+          var stored = localStorage.getItem('lang')
+          if (stored) return stored
+        } catch (e) { /* 저장소 차단 — 쿠키·브라우저 언어로 */ }
+        var match = document.cookie.match(/(?:^|;)\s*lang=([^;]*)/)
+        if (match) return match[1]
+        return (navigator.language || '').toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en'
+      }
+
+      function applyDocLang(lang) {
+        var docLang = lang === 'ko' ? 'ko' : 'en'
+        document.documentElement.lang = docLang
+        var select = document.getElementById('lang-select')
+        if (select) select.value = docLang
+      }
+
+      applyDocLang(readStoredLang())
+
+      document.getElementById('lang-select').addEventListener('change', function (e) {
+        var lang = e.target.value
+        try { localStorage.setItem('lang', lang) } catch (err) { /* 무시 */ }
+        document.cookie = 'lang=' + lang + '; path=/; max-age=31536000; SameSite=Lax'
+        applyDocLang(lang)
+      })
+    })()
+  </script>
+</body>
+</html>

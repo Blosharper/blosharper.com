@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blosharper | 지원 · Support</title>
+  <meta name="description" content="블로샤퍼(Blosharper) 지원 · 문의처 · Blosharper Support and Contact" />
+  <link rel="canonical" href="https://blosharper.com/support.html" />
+
+  <link rel="icon" href="public/icon.ico" type="image/x-icon" />
+  <link rel="icon" href="public/app-icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="public/app-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 지원 페이지 (#573) — 스토어 「지원 URL」 칸의 목적지. 구조·언어 전환은 privacy.html(#564)과 같다.
+       디스코드 초대 링크는 src/utils/feedbackLink.ts STOVE_FEEDBACK_URL과 같은 값이어야 한다. */
+
+    /* 언어 전환: html[lang]이 정한다. Pages 미들웨어(functions/_middleware.js)가 요청 언어로
+       lang 속성을 미리 박아 주므로 스크립트 없이도 맞는 쪽이 보인다. ko가 아니면 en(폴백). */
+    .policy[lang="ko"] { display: none; }
+    html[lang="ko"] .policy[lang="ko"] { display: block; }
+    html[lang="ko"] .policy[lang="en"] { display: none; }
+
+    .privacy-page {
+      position: relative;
+      z-index: 10;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 4.5rem 16px 4rem;
+    }
+    .privacy-home {
+      display: inline-block;
+      font-family: var(--font-pixel);
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-decoration: none;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 1rem;
+    }
+    .privacy-home:hover { text-decoration: underline; }
+    .privacy-page .help-markdown-content {
+      overflow: visible;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: 6px;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .privacy-page .help-markdown-content h2:first-child { margin-top: 0; }
+    .privacy-page .help-markdown-content h3 { font-size: 18px; }
+    .privacy-page .help-markdown-content code { color: var(--gold); }
+    .privacy-footer {
+      margin-top: 2rem;
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    @media (max-width: 480px) {
+      .privacy-page .help-markdown-content { padding: 16px; font-size: 15px; }
+      .privacy-page .help-markdown-content h2 { font-size: 20px; }
+      .privacy-page .help-markdown-content h3 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="table-felt"></div>
+  <div class="vignette"></div>
+
+  <div class="lang-switcher">
+    <select id="lang-select" aria-label="Language">
+      <option value="ko">KR</option>
+      <option value="en">EN</option>
+    </select>
+  </div>
+
+  <main class="privacy-page">
+    <a class="privacy-home" href="./">Blosharper</a>
+
+    <article class="policy help-markdown-content" lang="ko">
+      <h2>블로샤퍼(Blosharper) 지원</h2>
+
+      <h3>이메일 문의</h3>
+      <p><a href="mailto:support@joonjin.com">support@joonjin.com</a></p>
+
+      <h3>디스코드</h3>
+      <p>버그 제보와 의견은 공식 디스코드에서도 받습니다: <a href="https://discord.gg/Nf7Ctt9f3" target="_blank" rel="noopener">https://discord.gg/Nf7Ctt9f3</a></p>
+
+      <h3>개인정보처리방침</h3>
+      <p><a href="/privacy">개인정보처리방침 보기</a></p>
+
+      <h3 id="delete-data">데이터 삭제</h3>
+      <p>게임 안에서 직접 삭제할 수 있습니다: <strong>환경설정 › 데이터 관리 › 모든 데이터 초기화</strong>. 진행 상황, 스탯, 설정이 기기에서 삭제되며, Google Play 게임즈 또는 Apple Game Center에 로그인한 경우 클라우드 세이브도 빈 상태로 덮어씁니다. 이 작업은 되돌릴 수 없습니다.</p>
+
+      <h3>환불 및 결제 문의</h3>
+      <p>환불과 결제 관련 문의는 구매하신 스토어(App Store · Google Play · Steam · STOVE)의 정책을 따릅니다.</p>
+    </article>
+
+    <article class="policy help-markdown-content" lang="en">
+      <h2>Blosharper Support</h2>
+
+      <h3>Email</h3>
+      <p><a href="mailto:support@joonjin.com">support@joonjin.com</a></p>
+
+      <h3>Discord</h3>
+      <p>Bug reports and feedback are also welcome on our official Discord: <a href="https://discord.gg/Nf7Ctt9f3" target="_blank" rel="noopener">https://discord.gg/Nf7Ctt9f3</a></p>
+
+      <h3>Privacy Policy</h3>
+      <p><a href="/privacy">Read the Privacy Policy</a></p>
+
+      <h3 id="delete-data-en">Deleting Your Data</h3>
+      <p>You can delete your data in the game: <strong>Settings › Data Management › Wipe All Data / Reset Profile</strong>. This deletes your progress, stats and settings on the device, and if you are signed in to Google Play Games or Apple Game Center, it also overwrites your cloud save with an empty one. This cannot be undone.</p>
+
+      <h3>Refunds and Payments</h3>
+      <p>Refunds and payment inquiries follow the policy of the store where you made your purchase (App Store, Google Play, Steam or STOVE).</p>
+    </article>
+
+    <footer class="privacy-footer">&copy; 2026 Joon 💋 Jin Works. All rights reserved.</footer>
+  </main>
+
+  <script>
+    // 티저 본문(script.js)과 같은 언어 저장소를 쓴다 — localStorage·쿠키의 `lang`.
+    // 이 페이지는 ko · en 두 벌뿐이라 그 밖의 언어는 en으로 보여 주되, 저장된 선택은 덮어쓰지 않는다
+    // (사용자가 여기서 직접 고를 때만 기록한다).
+    (function () {
+      function readStoredLang() {
+        var query = new URLSearchParams(window.location.search).get('lang')
+        if (query) return query
+        try {
+          var stored = localStorage.getItem('lang')
+          if (stored) return stored
+        } catch (e) { /* 저장소 차단 — 쿠키·브라우저 언어로 */ }
+        var match = document.cookie.match(/(?:^|;)\s*lang=([^;]*)/)
+        if (match) return match[1]
+        return (navigator.language || '').toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en'
+      }
+
+      function applyDocLang(lang) {
+        var docLang = lang === 'ko' ? 'ko' : 'en'
+        document.documentElement.lang = docLang
+        var select = document.getElementById('lang-select')
+        if (select) select.value = docLang
+      }
+
+      applyDocLang(readStoredLang())
+
+      document.getElementById('lang-select').addEventListener('change', function (e) {
+        var lang = e.target.value
+        try { localStorage.setItem('lang', lang) } catch (err) { /* 무시 */ }
+        document.cookie = 'lang=' + lang + '; path=/; max-age=31536000; SameSite=Lax'
+        applyDocLang(lang)
+      })
+    })()
+  </script>
+</body>
+</html>

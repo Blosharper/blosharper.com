@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Blosharper Guide</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <link rel="stylesheet" href="style.css?v=1.0.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* 구글 번역기 UI 및 프레임 완전 숨김 */
+    .goog-te-banner-frame.skiptranslate, 
+    .goog-te-gadget-icon, 
+    .goog-tooltip, 
+    .goog-tooltip:hover,
+    #goog-gt-tt,
+    .goog-te-balloon-frame { 
+      display: none !important; 
+      visibility: hidden !important; 
+    }
+    body { top: 0px !important; position: static !important; }
+    iframe[src*="translate.googleapis.com"] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="markdownBody" class="help-markdown-content"></div>
+
+  <div id="google_translate_element" style="display:none;"></div>
+
+  <script>
+    const CACHE_VER = '1.0.1';
+    let currentDoc = 'GAME_GUIDE.md';
+
+    function initMarkedOptions() {
+      if (typeof marked === 'undefined') return;
+      marked.use({
+        renderer: {
+          heading({ tokens, depth }) {
+            const text = this.parser.parseInline(tokens);
+            const rawText = tokens.map(t => t.raw).join('');
+            const id = rawText.trim().replace(/\s+/g, '-');
+            return `<h${depth} id="${id}">${text}</h${depth}>`;
+          }
+        }
+      });
+    }
+
+    function processMarkdown(markdown) {
+      return markdown.replace(/(\*\*|\*)([^* \t\n][^*]*?)\1/g, (match, _delim, _content, offset, fullString) => {
+        const nextChar = fullString.charAt(offset + match.length);
+        if (/[가-힣]/.test(nextChar)) return match + '<!---->';
+        return match;
+      });
+    }
+
+    async function loadGuide(docName = 'GAME_GUIDE.md', anchor = null) {
+      if (typeof marked === 'undefined') return;
+      currentDoc = docName;
+      const contentBody = document.getElementById('markdownBody');
+      try {
+        const response = await fetch(`docs/manuals/${docName}?v=${CACHE_VER}`);
+        if (!response.ok) throw new Error('Network error');
+
+        const mdText = await response.text();
+        contentBody.innerHTML = marked.parse(processMarkdown(mdText));
+
+        // 부모에게 지금 뜬 문서를 알린다 — 안에서 .md 링크로 옮겨갔을 때도
+        // 헤더 탭과 주소가 따라오게 하는 통로다.
+        window.parent.postMessage({ type: 'GUIDE_LOADED', docName }, '*');
+
+        if (typeof mermaid !== 'undefined') {
+          const mermaidBlocks = contentBody.querySelectorAll('code.language-mermaid');
+          if (mermaidBlocks.length > 0) {
+            mermaidBlocks.forEach(block => {
+              const pre = block.parentElement;
+              if (pre && pre.tagName === 'PRE') {
+                const container = document.createElement('div');
+                container.className = 'mermaid';
+                container.textContent = block.textContent;
+                pre.replaceWith(container);
+              }
+            });
+            try {
+              await mermaid.run({ nodes: contentBody.querySelectorAll('.mermaid') });
+            } catch (e) {
+              console.warn('Mermaid rendering failed', e);
+            }
+          }
+        }
+
+        if (!anchor) window.scrollTo(0, 0);
+        handleLinks(contentBody);
+
+        if (anchor) {
+          setTimeout(() => {
+            const el = contentBody.querySelector(`[id="${anchor}"]`) || document.getElementById(anchor);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 50);
+        }
+      } catch (err) {
+        contentBody.innerHTML = '<p>가이드 문서를 불러오지 못했습니다.</p>';
+        console.error('MD Fetch Error:', err);
+      }
+    }
+
+    function handleLinks(container) {
+      container.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const href = link.getAttribute('href');
+          if (!href) return;
+
+          if (href.startsWith('#')) {
+            const el = container.querySelector(`[id="${decodeURIComponent(href.substring(1))}"]`);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          } else if (href.endsWith('.md') || href.includes('.md#')) {
+            const [docPath, anchorPart] = href.split('#');
+            loadGuide(docPath.split('/').pop(), anchorPart ? decodeURIComponent(anchorPart) : null);
+          } else if (href.startsWith('http')) {
+            window.parent.postMessage({ type: 'OPEN_LINK', url: href }, '*');
+          }
+        });
+      });
+    }
+
+    function loadGoogleTranslate() {
+      if (document.getElementById('google-translate-script')) return;
+      window.googleTranslateElementInit = function() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'ko',
+          autoDisplay: false,
+          includedLanguages: 'en,ja,zh-CN,zh-TW,de,ru'
+        }, 'google_translate_element');
+      };
+      const script = document.createElement('script');
+      script.id = 'google-translate-script';
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(script);
+    }
+
+    function syncGoogleTranslate(lang) {
+      if (lang === 'ko') {
+        const googleSelect = document.querySelector('.goog-te-combo');
+        if (googleSelect && googleSelect.value !== '') {
+          // 구글 번역기의 불완전한 원복을 방지하기 위해 쿠키 초기화 후 리로드
+          document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          window.location.reload();
+        }
+        return; // 한국어일 땐 번역기 자체를 로드하지 않음
+      }
+
+      // 다른 언어일 경우 번역기 스크립트 동적 로드
+      if (!document.getElementById('google-translate-script')) {
+        loadGoogleTranslate();
+      }
+
+      const googleSelect = document.querySelector('.goog-te-combo');
+      if (!googleSelect) {
+        setTimeout(() => syncGoogleTranslate(lang), 500);
+        return;
+      }
+      
+      if (googleSelect.value !== lang) {
+        googleSelect.value = lang;
+        googleSelect.dispatchEvent(new Event('change'));
+      }
+    }
+
+    window.addEventListener('message', (e) => {
+      if (e.data.type === 'SET_LANG') {
+        syncGoogleTranslate(e.data.lang);
+      } else if (e.data.type === 'LOAD_GUIDE') {
+        loadGuide(e.data.docName, e.data.anchor);
+      }
+    });
+
+    // Init
+    initMarkedOptions();
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+    }
+    
+    // 알림: 준비됨
+    window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
+  </script>
+</body>
+</html>

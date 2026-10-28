@@ -1,0 +1,997 @@
+@font-face {
+  font-family: 'DungGeunMo';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --font-pixel: 'DungGeunMo', monospace;
+  --gold: #ffd700;
+  --felt-green: #4a5535;
+  --felt-dark: #2a3020;
+  --bg: #121208;
+  --text: #e5e9f0;
+  --text-dim: #888;
+  --mouseX: 0;
+  --mouseY: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.6);
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Casino Felt Table (전체 바닥 — 올리브 모포) ── */
+.table-felt {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 80% 75% at 25% 30%, #5c6840 0%, #4a5535 20%, #3a4428 40%, #2a3320 60%, #1a2214 80%, #0e130a 100%);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ── Spotlight (따뜻한 자연광 조명) ── */
+.spotlight {
+  position: fixed;
+  left: -40%;
+  top: -40%;
+  width: 180%;
+  height: 180%;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 100% 120% at 25% 25%, rgba(255, 240, 180, 0.22) 0%, rgba(240, 220, 150, 0.12) 20%, rgba(220, 200, 120, 0.06) 40%, rgba(180, 170, 100, 0.02) 60%, transparent 80%);
+  transform: translate3d(calc(var(--mouseX) * 40px), calc(var(--mouseY) * 30px), 0);
+  will-change: transform, opacity;
+  mix-blend-mode: color-dodge;
+  animation: spotlightPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes spotlightPulse {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Vignette (가장자리 강한 어둠 = 스포트라이트 경계) ── */
+.vignette {
+  position: fixed;
+  left: -40%;
+  top: -40%;
+  width: 180%;
+  height: 180%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse 100% 100% at 25% 25%, transparent 0%, transparent 30%, rgba(10, 12, 6, 0.4) 50%, rgba(8, 10, 4, 0.7) 70%, rgba(4, 6, 2, 0.92) 85%, #050804 100%);
+  transform: translate3d(calc(var(--mouseX) * 30px), calc(var(--mouseY) * 22px), 0);
+  will-change: transform;
+}
+
+/* ── Felt Noise (모포 직물 질감 — 다층 레이어) ── */
+.felt-noise {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+.felt-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.7;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.03,0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  mix-blend-mode: soft-light;
+}
+
+.felt-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.5,0.04' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  mix-blend-mode: multiply;
+}
+
+/* ── Felt Highlight (조명 영역 질감 강조 — 텍스처 고정, 마스크만 이동) ── */
+.felt-highlight {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04,0.5' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23h)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at calc(32% + var(--mouseX) * 20px) calc(30% + var(--mouseY) * 15px), black 0%, rgba(0, 0, 0, 0.4) 30%, transparent 55%);
+  mask-image: radial-gradient(ellipse 80% 90% at calc(32% + var(--mouseX) * 20px) calc(30% + var(--mouseY) * 15px), black 0%, rgba(0, 0, 0, 0.4) 30%, transparent 55%);
+  transform: translateZ(0);
+  will-change:
+    mask-image,
+    -webkit-mask-image;
+}
+
+/* ── Felt Sheen (따뜻한 섬유 광택 — 빛 받는 곳에서 황금빛) ── */
+.felt-sheen {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5,0.02' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.3 0 0 0 0.12 0.25 0 0 0 0.08 0.1 0 0 0 0.02 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at calc(32% + var(--mouseX) * 20px) calc(30% + var(--mouseY) * 15px), black 0%, rgba(0, 0, 0, 0.3) 25%, transparent 50%);
+  mask-image: radial-gradient(ellipse 70% 80% at calc(32% + var(--mouseX) * 20px) calc(30% + var(--mouseY) * 15px), black 0%, rgba(0, 0, 0, 0.3) 25%, transparent 50%);
+  transform: translateZ(0);
+  will-change:
+    mask-image,
+    -webkit-mask-image;
+}
+
+/* ── Felt Hotspot (광원 중심부 강한 하이라이트) ── */
+.felt-hotspot {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hp)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  -webkit-mask-image: radial-gradient(ellipse 35% 40% at calc(32% + var(--mouseX) * 20px) calc(30% + var(--mouseY) * 15px), white 0%, rgba(255, 255, 255, 0.5) 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 35% 40% at calc(32% + var(--mouseX) * 20px) calc(30% + var(--mouseY) * 15px), white 0%, rgba(255, 255, 255, 0.5) 30%, transparent 100%);
+  transform: translateZ(0);
+  will-change:
+    mask-image,
+    -webkit-mask-image;
+}
+
+/* ── Gold Dust Particles ── */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0;
+  animation: floatParticle var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes floatParticle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.5);
+  }
+  15% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) translateX(var(--drift)) scale(0);
+  }
+}
+
+/* ── Main Content ── */
+.content {
+  position: relative;
+  margin: 0 auto;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  padding: 4rem 1.5rem;
+  max-width: 960px;
+  width: 100%;
+  min-height: 100vh;
+  perspective: none;
+  transform-style: flat;
+}
+
+/* Safe Vertical Centering: Ensures centering when short, but scrolls gracefully without cutting top if tall */
+.content::before,
+.content::after {
+  content: '';
+  flex: auto;
+}
+
+/* ── Language Switcher ── */
+.lang-switcher {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+}
+
+#lang-select {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  color: var(--text-bright);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4rem 1.8rem 0.4rem 0.8rem;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat, repeat;
+  background-position:
+    right 0.6em top 50%,
+    0 0;
+  background-size:
+    0.65em auto,
+    100%;
+  transition: all 0.2s ease;
+}
+
+#lang-select:hover,
+#lang-select:focus {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+#lang-select option {
+  background: #1a1a1a;
+  color: var(--text-bright);
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  padding: 0.5rem 1.8rem;
+  border-radius: 2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Game Title (matches in-game style) ── */
+.game-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(48px, 12vw, 96px);
+  color: var(--gold);
+  text-shadow:
+    calc(5px + var(--mouseX) * -3px) calc(5px + var(--mouseY) * -4px) 0px rgba(0, 0, 0, 0.8),
+    calc(10px + var(--mouseX) * -6px) calc(10px + var(--mouseY) * -8px) 15px rgba(0, 0, 0, 0.5);
+  margin-bottom: 6px;
+  line-height: 1;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  --tz: 20px;
+}
+
+/* ── Scanline Effect (CRT 스캔라인) ── */
+.game-title {
+  position: relative;
+}
+
+.game-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0.15) 50%, rgba(0, 0, 0, 0) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.game-title::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  box-shadow: inset 0 0 60px rgba(255, 215, 0, 0.03);
+  pointer-events: none;
+  z-index: 1;
+  animation: scanFlicker 0.15s infinite;
+}
+
+@keyframes scanFlicker {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.game-subtitle {
+  font-family: var(--font-pixel);
+  font-size: clamp(16px, 4vw, 33px);
+  color: #ffffff;
+  text-shadow: calc(3px + var(--mouseX) * -2px) calc(3px + var(--mouseY) * -3px) 0px rgba(0, 0, 0, 0.8);
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  --tz: 10px;
+}
+
+/* ── Card Fan (광카드 5장) ── */
+.card-fan {
+  position: relative;
+  height: 180px;
+  width: 420px;
+  margin-bottom: 2rem;
+  filter: drop-shadow(calc(4px + var(--mouseX) * -6px) calc(6px + var(--mouseY) * -6px) 20px rgba(0, 0, 0, 0.8));
+}
+
+.gwang-card {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 120px;
+  height: 184px;
+  transform-origin: 50% 95%;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.gwang-card img {
+  display: block;
+  width: 120px;
+  height: 184px;
+  object-fit: none;
+  pointer-events: none;
+}
+
+/* ── Tagline ── */
+.tagline {
+  font-family: var(--font-pixel);
+  font-size: clamp(15px, 2.5vw, 22px);
+  color: rgba(229, 233, 240, 0.95);
+  letter-spacing: 1px;
+  margin-bottom: 2.5rem;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.tagline .highlight {
+  color: var(--gold);
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.4),
+    0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.tag-stop {
+  display: inline-block;
+  color: #ff4444;
+  font-weight: bold;
+  margin: 0 2px;
+  text-shadow: 0 0 6px rgba(255, 68, 68, 0.5);
+}
+
+.tag-go {
+  display: inline-block;
+  color: #43a047;
+  font-weight: bold;
+  margin: 0 2px;
+  text-shadow: 0 0 6px rgba(67, 160, 71, 0.5);
+}
+
+/* ── Features ── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 680px;
+  margin-top: 0.5rem;
+}
+
+.feature-card {
+  background: rgba(10, 10, 5, 0.45);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  transition:
+    transform 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(20, 20, 5, 0.65);
+}
+
+.feature-icon {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+.feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.feature-content strong {
+  color: var(--gold);
+  font-family: var(--font-pixel);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.feature-content span {
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  opacity: 0.85;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+
+/* ── CJK Word-break Adjustments ── */
+:lang(ja) *,
+:lang(zh-CN) *,
+:lang(zh-TW) * {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+/* ── Release Text (Apple Style) ── */
+.release-text {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(22px, 5vw, 40px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(180deg, #ffffff 30%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.15));
+  transform: scale(0.98);
+  /* 두 마디(「스팀 정식 출시」 · 「지금 플레이하세요」)짜리 문장이라 폰에서 두 줄이 될 수 있다.
+     그냥 두면 한 마디가 중간에서 잘려 읽힌다(종전 문안으로 실측 390px). */
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+/* ── Buttons (게임 인게임 스타일 복제) ── */
+.actions {
+  display: flex;
+  /* 좁은 폭에서 버튼 셋이 붙지 않게 간격도 같이 줄인다 (데스크톱 값은 1.5rem 그대로). */
+  gap: clamp(0.6rem, 2.5vw, 1.5rem);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-pixel);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  text-decoration: none;
+  border: 4px solid #000;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: var(--btn-bg);
+  box-shadow:
+    inset 4px 4px 0 var(--btn-highlight),
+    inset -4px -4px 0 var(--btn-shadow),
+    calc(4px + var(--mouseX) * -2px) calc(4px + var(--mouseY) * -2px) 0 #000;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
+}
+
+.btn:active {
+  transform: translate(4px, 4px);
+  box-shadow:
+    inset 4px 4px 0 var(--btn-shadow),
+    inset -4px -4px 0 var(--btn-highlight),
+    0 0 0 #000;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.btn-start {
+  font-size: clamp(15px, 3.4vw, 20px);
+  padding: clamp(10px, 2.4vw, 16px) clamp(12px, 3.2vw, 24px);
+  --btn-bg: #43a047;
+  --btn-shadow: rgba(0, 0, 0, 0.4);
+  --btn-highlight: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 6px 6px 0 rgba(255, 255, 255, 0.4),
+    inset -6px -6px 0 rgba(0, 0, 0, 0.2),
+    calc(6px + var(--mouseX) * -3px) calc(6px + var(--mouseY) * -3px) 0 #000,
+    calc(10px + var(--mouseX) * -5px) calc(10px + var(--mouseY) * -5px) 0 rgba(0, 0, 0, 0.3);
+}
+
+.btn-start:hover {
+  transform: translateY(-2px);
+}
+
+.btn-start:active {
+  transform: translate(6px, 6px);
+  box-shadow:
+    inset 6px 6px 0 rgba(0, 0, 0, 0.2),
+    inset -6px -6px 0 rgba(255, 255, 255, 0.4),
+    0 0 0 #000;
+}
+
+.btn-sub {
+  font-size: clamp(15px, 3.4vw, 20px);
+  padding: clamp(10px, 2.4vw, 16px) clamp(12px, 3.2vw, 24px);
+  --btn-bg: #4c566a;
+  --btn-shadow: rgba(0, 0, 0, 0.4);
+  --btn-highlight: rgba(255, 255, 255, 0.4);
+  color: #e5e9f0;
+  text-shadow: calc(4px + var(--mouseX) * -2px) calc(4px + var(--mouseY) * -2px) 0 #000;
+}
+
+.btn-sub:hover {
+  transform: translateY(-2px);
+  color: #fff;
+  text-shadow: calc(5px + var(--mouseX) * -3px) calc(5px + var(--mouseY) * -3px) 0 #000;
+}
+
+.btn-sub:active {
+  transform: translate(4px, 4px);
+  text-shadow: 0 0 0 #000;
+}
+
+/* ── Store Marks (스팀 · 스토브) ── */
+/* 히어로 버튼 바로 아래 한 줄. .content 의 2rem gap 을 당겨 버튼 그룹과 한 덩이로 읽히게 한다. */
+.store-marks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 4vw, 2.2rem);
+  margin-top: -1.1rem;
+}
+
+.store-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.4vw, 0.6rem);
+  text-decoration: none;
+  color: #e5e9f0;
+  transition:
+    transform 0.15s,
+    opacity 0.15s;
+}
+
+/* 링크로 승격된 마크만 손가락과 호버 반응을 갖는다 (href 없는 스토브는 그냥 표식). */
+.store-mark[href] {
+  cursor: pointer;
+}
+
+.store-mark[href]:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+/* 스팀 로고는 브랜드 가이드라인상 변형 금지 — 크기만 정하고 색·효과는 건드리지 않는다. */
+.store-mark-logo {
+  height: clamp(22px, 5.4vw, 30px);
+  width: auto;
+  display: block;
+}
+
+.store-mark-symbol {
+  height: clamp(22px, 5.4vw, 30px);
+  width: auto;
+  display: block;
+}
+
+/* 워드마크는 픽셀 폰트를 쓰지 않는다 — DungGeunMo 의 V 자소가 U 처럼 읽혀
+   브랜드명이 「STOUE」로 보인다(실측). 본문 산세리프로 또박하게 둔다. */
+.store-mark-word {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(14px, 3.4vw, 19px);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.store-mark-badge {
+  font-family: var(--font-pixel);
+  font-size: clamp(11px, 2.6vw, 14px);
+  line-height: 1;
+  padding: 0.32em 0.6em;
+  border: 2px solid rgba(255, 215, 0, 0.55);
+  border-radius: 999px;
+  color: var(--gold);
+  background: rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+}
+
+/* ── Platforms ── */
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  font-family: var(--font-pixel);
+  font-size: clamp(15px, 3.5vw, 18px);
+  color: #8fbcbb;
+  margin-top: -0.2rem;
+  letter-spacing: 0.5px;
+}
+
+.platform-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.platform-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  opacity: 0.9;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
+}
+
+/* ── Entrance Animations ── */
+.anim-item {
+  --tz: 0px;
+  opacity: 0;
+  transform: translateY(15px) translateZ(var(--tz));
+  animation: fadeSlideUp 0.6s ease-out forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+.anim-cards {
+  --card-scale: 1;
+  opacity: 0;
+  transform: scale(calc(var(--card-scale) * 0.85));
+  animation: fanReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s forwards;
+}
+
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(var(--tz));
+  }
+}
+
+@keyframes fanReveal {
+  to {
+    opacity: 1;
+    transform: scale(var(--card-scale));
+  }
+}
+
+/* ── Guide Overlay ── */
+.hidden {
+  display: none !important;
+}
+
+.guide-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-container {
+  width: 90%;
+  max-width: 900px;
+  height: 90vh;
+  background: #1e1e1e;
+  border: 4px solid #4c566a;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(8px, 2.2vw, 15px) clamp(10px, 3vw, 20px);
+  background: #2a2a2a;
+  border-bottom: 2px solid #000;
+}
+
+/* ── Guide Document Tabs ── */
+.guide-tabs {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+
+.guide-tab {
+  font-family: var(--font-pixel);
+  font-size: clamp(15px, 3.2vw, 22px);
+  line-height: 1.2;
+  padding: 7px 12px;
+  color: #7b8394;
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.guide-tab:hover {
+  color: #eceff4;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.guide-tab.is-active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.close-btn {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 33px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-pixel);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  color: #fff;
+  transform: scale(1.1) rotate(90deg);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Markdown Content ── */
+.help-markdown-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  color: #eceff4;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.help-markdown-content::-webkit-scrollbar {
+  width: 10px;
+}
+.help-markdown-content::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+.help-markdown-content::-webkit-scrollbar-thumb {
+  background: #555;
+  border: 2px solid #2a2a2a;
+}
+.help-markdown-content::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.help-markdown-content h1,
+.help-markdown-content h2,
+.help-markdown-content h3 {
+  color: var(--gold);
+  font-family: var(--font-pixel);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  text-shadow: 2px 2px 0 #000;
+}
+.help-markdown-content h1 {
+  font-size: 28px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 10px;
+}
+.help-markdown-content h2 {
+  font-size: 24px;
+  color: #88c0d0;
+}
+.help-markdown-content h3 {
+  font-size: 20px;
+  color: #a3be8c;
+}
+.help-markdown-content p {
+  margin-bottom: 1em;
+}
+.help-markdown-content ul,
+.help-markdown-content ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+.help-markdown-content li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+.help-markdown-content ul {
+  list-style-type: disc;
+}
+.help-markdown-content ol {
+  list-style-type: decimal;
+}
+.help-markdown-content strong {
+  color: #fff;
+  font-weight: bold;
+}
+.help-markdown-content blockquote {
+  background: rgba(255, 215, 0, 0.1);
+  border-left: 4px solid var(--gold);
+  margin: 1em 0;
+  padding: 10px 20px;
+}
+.help-markdown-content pre {
+  padding: 15px;
+  background: #000;
+  border: 2px solid #444;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+.help-markdown-content code {
+  background: #000;
+  color: #a3be8c;
+  padding: 2px 6px;
+  font-family: monospace;
+}
+.help-markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  background: #1a1a1a;
+  border: 2px solid #000;
+}
+.help-markdown-content th,
+.help-markdown-content td {
+  padding: 10px;
+  border: 1px solid #444;
+}
+.help-markdown-content th {
+  background: #2e3440;
+  color: #88c0d0;
+  font-family: var(--font-pixel);
+  text-align: center;
+}
+.help-markdown-content hr {
+  border: 0;
+  height: 2px;
+  background: #444;
+  margin: 2em 0;
+}
+.help-markdown-content a {
+  color: #88c0d0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.help-markdown-content a:hover {
+  color: #8fbcbb;
+  text-decoration: underline;
+}
+.help-markdown-content a:visited {
+  color: #b48ead;
+}
+
+/* ── Copyright ── */
+.copyright {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(10px, 1.5vw, 13px);
+  color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.copyright a {
+  color: inherit;
+  text-decoration: underline;
+}
+.copyright a:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
