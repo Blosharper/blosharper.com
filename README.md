@@ -17,7 +17,7 @@ Don't rely on luck — use illicit "cheat" skills to rig the deck and survive a 
   <a href="https://store.onstove.com/ko/games/105719"><b>STOVE</b></a> ·
   <a href="https://www.youtube.com/watch?v=fRmHvBgpXbk">Trailer</a> ·
   <a href="https://blosharper.com/#/guide/how-to-play">How to play</a> ·
-  <a href="https://discord.gg/Nf7Ctt9f3">Discord</a> ·
+  <a href="https://discord.gg/aJNJypBjKD">Discord</a> ·
   <a href="https://x.com/blosharper">X</a> ·
   <a href="https://www.youtube.com/@blosharper">YouTube</a>
 </p>
